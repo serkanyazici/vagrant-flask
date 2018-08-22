@@ -3,6 +3,7 @@ HOST_PORT_FWD = "8080"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "ubuntu/trusty64"
+    config.vm.box_check_update = false
     config.vm.host_name = 'flask'
     config.vm.network "forwarded_port", guest: 5000, host: HOST_PORT_FWD
     config.vm.synced_folder "saltstack/", "/srv/salt/"
@@ -18,5 +19,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.bootstrap_options = "-P -c /tmp"
     end
 
-    config.vm.provision :shell, :inline => "export FLASK_APP=/opt/my_app/hello.py && export FLASK_ENV=development && flask run --host=0.0.0.0", :privileged => false
+    config.vm.provision :shell, :inline => "/opt/my_app/flask-init.sh \"hello.py\"", :privileged => false, run: 'always'
   end
