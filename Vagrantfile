@@ -1,5 +1,6 @@
 VAGRANTFILE_API_VERSION = "2"
 HOST_PORT_FWD = "8080"
+PYTHON_FILE = "hello.py"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "ubuntu/trusty64"
@@ -19,5 +20,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.bootstrap_options = "-P -c /tmp"
     end
 
-    config.vm.provision :shell, :inline => "/opt/my_app/flask-init.sh \"hello.py\"", :privileged => false, run: 'always'
+    config.vm.provision :shell, :inline => "/opt/my_app/flask-init.sh $1", :args => "#{PYTHON_FILE}", :privileged => false, run: 'always'
   end
