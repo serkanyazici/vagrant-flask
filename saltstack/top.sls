@@ -2,3 +2,4 @@ base:
   '*':
     - python
     - flask
+    - gunicorn

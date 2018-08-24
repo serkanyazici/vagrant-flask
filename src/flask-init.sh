@@ -10,4 +10,7 @@ PYFILE=$1
 export FLASK_APP=/opt/my_app/${PYFILE}
 export FLASK_ENV=development
 
-nohup /usr/local/bin/flask run --host=0.0.0.0 &> /home/vagrant/nohup.out&
+GUNICORN_F=`echo $PYFILE | cut -d"." -f1`
+
+#nohup /usr/local/bin/flask run --host=0.0.0.0 &> /home/vagrant/nohup.out&
+cd /opt/my_app/ && nohup /usr/local/bin/gunicorn --bind=0.0.0.0:5000 --reload --access-logfile '-' $GUNICORN_F:app &> /home/vagrant/nohup.out&
